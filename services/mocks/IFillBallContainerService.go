@@ -27,3 +27,17 @@ func (_m *IFillBallContainerService) IsContainerFull(ctx context.Context, req mo
 
 	return r0
 }
+
+// ValidateRequest provides a mock function with given fields: ctx, req
+func (_m *IFillBallContainerService) ValidateRequest(ctx context.Context, req models.FillBallContainerReq) models.RespError {
+	ret := _m.Called(ctx, req)
+
+	var r0 models.RespError
+	if rf, ok := ret.Get(0).(func(context.Context, models.FillBallContainerReq) models.RespError); ok {
+		r0 = rf(ctx, req)
+	} else {
+		r0 = ret.Get(0).(models.RespError)
+	}
+
+	return r0
+}

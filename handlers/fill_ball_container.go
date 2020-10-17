@@ -48,6 +48,12 @@ func (fbch FillBallContainerHandler) CheckBallContainer(w http.ResponseWriter, r
 		fbch.respError(w, respErr)
 		return
 	}
+	respErr := fbch.fbcs.ValidateRequest(r.Context(), req)
+	if respErr.ErrorCode != "" {
+		log.Println(respErr.ErrorCode, respErr.ErrorMessage, err)
+		fbch.respError(w, respErr)
+		return
+	}
 	resp := fbch.fbcs.IsContainerFull(r.Context(), req)
 	fbch.respSuccess(w, resp)
 }
