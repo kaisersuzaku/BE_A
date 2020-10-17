@@ -7,10 +7,12 @@ import (
 )
 
 const (
-	ContainerAlreadyFull string = "ALREADY_FULL"
+	// ContainerAlreadyFull : number of current ball in container is already same with ball container size
+	// Will return also verified
+	ContainerAlreadyFull string = "FULL"
 
-	// ContainerVerified : number of current ball in container after addition is same with ball container size
-	ContainerVerified string = "VERIFIED"
+	// ContainerFull : number of current ball in container after addition is same with ball container size
+	ContainerFull string = "FULL"
 
 	ContainerNotFull string = "NOT_FULL"
 )
@@ -29,12 +31,22 @@ type IFillBallContainerService interface {
 }
 
 func (fbcs FillBallContainerService) IsContainerFull(ctx context.Context, req models.FillBallContainerReq) (resp models.FillBallContainerResp) {
+	if req.BallContainer.CurrentBallInContainer == req.BallContainer.BallContainerSize {
+		resp.Status = ContainerAlreadyFull
+		resp.BallContainer = req.BallContainer
+		return
+	}
 	totalBall := req.BallContainer.CurrentBallInContainer + req.ThrownBall.NumberOfBall
 	if totalBall == req.BallContainer.BallContainerSize {
-		resp.Status = ContainerVerified
+		resp.Status = ContainerFull
 		resp.BallContainer = req.BallContainer
 		resp.BallContainer.CurrentBallInContainer = totalBall
 		return
+	}
+	if totalBall < req.BallContainer.BallContainerSize {
+		resp.Status = ContainerNotFull
+		resp.BallContainer = req.BallContainer
+		resp.BallContainer.CurrentBallInContainer = totalBall
 	}
 	return
 }

@@ -21,7 +21,7 @@ func TestBallContainerSizeFour(t *testing.T) {
 		expected func() models.FillBallContainerResp
 	}{
 		{
-			"TestBallContainerSizeFour : Ball Container VERIFIED",
+			"TestBallContainerSizeFour : Ball Container FULL",
 			func() context.Context {
 				return context.TODO()
 			},
@@ -45,7 +45,65 @@ func TestBallContainerSizeFour(t *testing.T) {
 				}
 				return models.FillBallContainerResp{
 					BallContainer: ballContainer,
-					Status:        services.ContainerVerified,
+					Status:        services.ContainerFull,
+				}
+			},
+		},
+		{
+			"TestBallContainerSizeFour : Ball Container already FULL",
+			func() context.Context {
+				return context.TODO()
+			},
+			func() models.FillBallContainerReq {
+				ballContainer := models.BallContainer{
+					BallContainerSize:      services.CommonBallContainerSizeFour,
+					CurrentBallInContainer: 4,
+				}
+				thrownBall := models.ThrownBall{
+					NumberOfBall: 1,
+				}
+				return models.FillBallContainerReq{
+					BallContainer: ballContainer,
+					ThrownBall:    thrownBall,
+				}
+			},
+			func() models.FillBallContainerResp {
+				ballContainer := models.BallContainer{
+					BallContainerSize:      services.CommonBallContainerSizeFour,
+					CurrentBallInContainer: services.CommonBallContainerSizeFour,
+				}
+				return models.FillBallContainerResp{
+					BallContainer: ballContainer,
+					Status:        services.ContainerFull,
+				}
+			},
+		},
+		{
+			"TestBallContainerSizeFour : Ball Container NOT FULL",
+			func() context.Context {
+				return context.TODO()
+			},
+			func() models.FillBallContainerReq {
+				ballContainer := models.BallContainer{
+					BallContainerSize:      services.CommonBallContainerSizeFour,
+					CurrentBallInContainer: 2,
+				}
+				thrownBall := models.ThrownBall{
+					NumberOfBall: 1,
+				}
+				return models.FillBallContainerReq{
+					BallContainer: ballContainer,
+					ThrownBall:    thrownBall,
+				}
+			},
+			func() models.FillBallContainerResp {
+				ballContainer := models.BallContainer{
+					BallContainerSize:      services.CommonBallContainerSizeFour,
+					CurrentBallInContainer: 3,
+				}
+				return models.FillBallContainerResp{
+					BallContainer: ballContainer,
+					Status:        services.ContainerNotFull,
 				}
 			},
 		},
@@ -91,7 +149,65 @@ func TestBallContainerSizeThree(t *testing.T) {
 				}
 				return models.FillBallContainerResp{
 					BallContainer: ballContainer,
-					Status:        services.ContainerVerified,
+					Status:        services.ContainerFull,
+				}
+			},
+		},
+		{
+			"TestBallContainerSizeThree : Ball Container already FULL",
+			func() context.Context {
+				return context.TODO()
+			},
+			func() models.FillBallContainerReq {
+				ballContainer := models.BallContainer{
+					BallContainerSize:      services.CommonBallContainerSizeThree,
+					CurrentBallInContainer: 3,
+				}
+				thrownBall := models.ThrownBall{
+					NumberOfBall: 1,
+				}
+				return models.FillBallContainerReq{
+					BallContainer: ballContainer,
+					ThrownBall:    thrownBall,
+				}
+			},
+			func() models.FillBallContainerResp {
+				ballContainer := models.BallContainer{
+					BallContainerSize:      services.CommonBallContainerSizeThree,
+					CurrentBallInContainer: services.CommonBallContainerSizeThree,
+				}
+				return models.FillBallContainerResp{
+					BallContainer: ballContainer,
+					Status:        services.ContainerFull,
+				}
+			},
+		},
+		{
+			"TestBallContainerSizeThree : Ball Container NOT FULL",
+			func() context.Context {
+				return context.TODO()
+			},
+			func() models.FillBallContainerReq {
+				ballContainer := models.BallContainer{
+					BallContainerSize:      services.CommonBallContainerSizeThree,
+					CurrentBallInContainer: 1,
+				}
+				thrownBall := models.ThrownBall{
+					NumberOfBall: 1,
+				}
+				return models.FillBallContainerReq{
+					BallContainer: ballContainer,
+					ThrownBall:    thrownBall,
+				}
+			},
+			func() models.FillBallContainerResp {
+				ballContainer := models.BallContainer{
+					BallContainerSize:      services.CommonBallContainerSizeThree,
+					CurrentBallInContainer: 2,
+				}
+				return models.FillBallContainerResp{
+					BallContainer: ballContainer,
+					Status:        services.ContainerNotFull,
 				}
 			},
 		},
