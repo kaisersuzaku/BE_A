@@ -2,6 +2,7 @@ package services_test
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/kaisersuzaku/BE_A/models"
@@ -20,7 +21,7 @@ func TestBallContainerSizeFour(t *testing.T) {
 		expected func() models.FillBallContainerResp
 	}{
 		{
-			"Ball Container VERIFIED",
+			"TestBallContainerSizeFour : Ball Container VERIFIED",
 			func() context.Context {
 				return context.TODO()
 			},
@@ -51,7 +52,7 @@ func TestBallContainerSizeFour(t *testing.T) {
 	}
 	for _, test := range tests {
 		resp := fillBallContainerService.IsContainerFull(test.input1(), test.input2())
-		assert.Equal(test.expected(), resp)
+		assert.Equal(test.expected(), resp, fmt.Sprintf("%s : Object not same, expected %v, got %v", test.testName, test.expected(), resp))
 	}
 }
 
@@ -66,7 +67,7 @@ func TestBallContainerSizeThree(t *testing.T) {
 		expected func() models.FillBallContainerResp
 	}{
 		{
-			"Ball Container VERIFIED",
+			"TestBallContainerSizeThree : Ball Container VERIFIED",
 			func() context.Context {
 				return context.TODO()
 			},
@@ -97,6 +98,6 @@ func TestBallContainerSizeThree(t *testing.T) {
 	}
 	for _, test := range tests {
 		resp := fillBallContainerService.IsContainerFull(test.input1(), test.input2())
-		assert.Equal(test.expected(), resp)
+		assert.Equal(test.expected(), resp, fmt.Sprintf("%s : Object not same, expected %v, got %v", test.testName, test.expected(), resp))
 	}
 }

@@ -11,7 +11,8 @@ const (
 
 	// ContainerVerified : number of current ball in container after addition is same with ball container size
 	ContainerVerified string = "VERIFIED"
-	ContainerNotFull  string = "NOT_FULL"
+
+	ContainerNotFull string = "NOT_FULL"
 )
 
 const (
