@@ -37,7 +37,7 @@ func TestBallContainer(t *testing.T) {
 				}
 				resp := models.FillBallContainerResp{
 					BallContainer: ballContainer,
-					Status:        services.ContainerVerified,
+					Status:        services.ContainerFull,
 				}
 				b, _ := json.Marshal(resp)
 				return http.StatusOK, string(b)
@@ -45,15 +45,13 @@ func TestBallContainer(t *testing.T) {
 			func() (*http.Request, *httptest.ResponseRecorder) {
 
 				ballContainerReq := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeFour,
 					CurrentBallInContainer: 3,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				req := models.FillBallContainerReq{
 					BallContainer: ballContainerReq,
-					ThrownBall:    thrownBall,
 				}
 
 				ballContainerResp := models.BallContainer{
@@ -62,7 +60,7 @@ func TestBallContainer(t *testing.T) {
 				}
 				resp := models.FillBallContainerResp{
 					BallContainer: ballContainerResp,
-					Status:        services.ContainerVerified,
+					Status:        services.ContainerFull,
 				}
 
 				b, _ := json.Marshal(req)
@@ -84,7 +82,7 @@ func TestBallContainer(t *testing.T) {
 				}
 				resp := models.FillBallContainerResp{
 					BallContainer: ballContainer,
-					Status:        services.ContainerVerified,
+					Status:        services.ContainerFull,
 				}
 				b, _ := json.Marshal(resp)
 				return http.StatusOK, string(b)
@@ -92,15 +90,13 @@ func TestBallContainer(t *testing.T) {
 			func() (*http.Request, *httptest.ResponseRecorder) {
 
 				ballContainerReq := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeThree,
 					CurrentBallInContainer: 3,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				req := models.FillBallContainerReq{
 					BallContainer: ballContainerReq,
-					ThrownBall:    thrownBall,
 				}
 
 				ballContainerResp := models.BallContainer{
@@ -109,7 +105,7 @@ func TestBallContainer(t *testing.T) {
 				}
 				resp := models.FillBallContainerResp{
 					BallContainer: ballContainerResp,
-					Status:        services.ContainerVerified,
+					Status:        services.ContainerFull,
 				}
 
 				b, _ := json.Marshal(req)
@@ -132,14 +128,12 @@ func TestBallContainer(t *testing.T) {
 			func() (*http.Request, *httptest.ResponseRecorder) {
 
 				ballContainerReq := models.BallContainer{
+					ID:                1,
 					BallContainerSize: services.CommonBallContainerSizeFour,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				req := models.FillBallContainerReq{
 					BallContainer: ballContainerReq,
-					ThrownBall:    thrownBall,
 				}
 
 				b, _ := json.Marshal(req)
@@ -173,15 +167,13 @@ func TestBallContainer(t *testing.T) {
 			func() (*http.Request, *httptest.ResponseRecorder) {
 
 				ballContainerReq := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      5,
 					CurrentBallInContainer: 3,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				req := models.FillBallContainerReq{
 					BallContainer: ballContainerReq,
-					ThrownBall:    thrownBall,
 				}
 
 				b, _ := json.Marshal(req)
@@ -203,15 +195,13 @@ func TestBallContainer(t *testing.T) {
 			func() (*http.Request, *httptest.ResponseRecorder) {
 
 				ballContainerReq := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      2,
 					CurrentBallInContainer: 1,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				req := models.FillBallContainerReq{
 					BallContainer: ballContainerReq,
-					ThrownBall:    thrownBall,
 				}
 
 				b, _ := json.Marshal(req)

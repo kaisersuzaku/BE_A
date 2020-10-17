@@ -27,19 +27,18 @@ func TestBallContainerSizeFour(t *testing.T) {
 			},
 			func() models.FillBallContainerReq {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeFour,
 					CurrentBallInContainer: 3,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				return models.FillBallContainerReq{
 					BallContainer: ballContainer,
-					ThrownBall:    thrownBall,
 				}
 			},
 			func() models.FillBallContainerResp {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeFour,
 					CurrentBallInContainer: services.CommonBallContainerSizeFour,
 				}
@@ -56,19 +55,18 @@ func TestBallContainerSizeFour(t *testing.T) {
 			},
 			func() models.FillBallContainerReq {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeFour,
 					CurrentBallInContainer: 4,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				return models.FillBallContainerReq{
 					BallContainer: ballContainer,
-					ThrownBall:    thrownBall,
 				}
 			},
 			func() models.FillBallContainerResp {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeFour,
 					CurrentBallInContainer: services.CommonBallContainerSizeFour,
 				}
@@ -85,19 +83,18 @@ func TestBallContainerSizeFour(t *testing.T) {
 			},
 			func() models.FillBallContainerReq {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeFour,
 					CurrentBallInContainer: 2,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				return models.FillBallContainerReq{
 					BallContainer: ballContainer,
-					ThrownBall:    thrownBall,
 				}
 			},
 			func() models.FillBallContainerResp {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeFour,
 					CurrentBallInContainer: 3,
 				}
@@ -131,19 +128,18 @@ func TestBallContainerSizeThree(t *testing.T) {
 			},
 			func() models.FillBallContainerReq {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeThree,
 					CurrentBallInContainer: 2,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				return models.FillBallContainerReq{
 					BallContainer: ballContainer,
-					ThrownBall:    thrownBall,
 				}
 			},
 			func() models.FillBallContainerResp {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeThree,
 					CurrentBallInContainer: services.CommonBallContainerSizeThree,
 				}
@@ -160,19 +156,18 @@ func TestBallContainerSizeThree(t *testing.T) {
 			},
 			func() models.FillBallContainerReq {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeThree,
 					CurrentBallInContainer: 3,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				return models.FillBallContainerReq{
 					BallContainer: ballContainer,
-					ThrownBall:    thrownBall,
 				}
 			},
 			func() models.FillBallContainerResp {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeThree,
 					CurrentBallInContainer: services.CommonBallContainerSizeThree,
 				}
@@ -189,19 +184,18 @@ func TestBallContainerSizeThree(t *testing.T) {
 			},
 			func() models.FillBallContainerReq {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeThree,
 					CurrentBallInContainer: 1,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				return models.FillBallContainerReq{
 					BallContainer: ballContainer,
-					ThrownBall:    thrownBall,
 				}
 			},
 			func() models.FillBallContainerResp {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeThree,
 					CurrentBallInContainer: 2,
 				}
@@ -235,15 +229,13 @@ func TestValidateRequest(t *testing.T) {
 			},
 			func() models.FillBallContainerReq {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeFour,
 					CurrentBallInContainer: 3,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				return models.FillBallContainerReq{
 					BallContainer: ballContainer,
-					ThrownBall:    thrownBall,
 				}
 			},
 			func() models.RespError {
@@ -257,15 +249,13 @@ func TestValidateRequest(t *testing.T) {
 			},
 			func() models.FillBallContainerReq {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      services.CommonBallContainerSizeThree,
 					CurrentBallInContainer: 3,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				return models.FillBallContainerReq{
 					BallContainer: ballContainer,
-					ThrownBall:    thrownBall,
 				}
 			},
 			func() models.RespError {
@@ -279,15 +269,13 @@ func TestValidateRequest(t *testing.T) {
 			},
 			func() models.FillBallContainerReq {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      5,
 					CurrentBallInContainer: 3,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				return models.FillBallContainerReq{
 					BallContainer: ballContainer,
-					ThrownBall:    thrownBall,
 				}
 			},
 			func() models.RespError {
@@ -301,15 +289,13 @@ func TestValidateRequest(t *testing.T) {
 			},
 			func() models.FillBallContainerReq {
 				ballContainer := models.BallContainer{
+					ID:                     1,
 					BallContainerSize:      2,
 					CurrentBallInContainer: 1,
 				}
-				thrownBall := models.ThrownBall{
-					NumberOfBall: 1,
-				}
+
 				return models.FillBallContainerReq{
 					BallContainer: ballContainer,
-					ThrownBall:    thrownBall,
 				}
 			},
 			func() models.RespError {

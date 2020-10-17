@@ -36,7 +36,7 @@ func (fbcs FillBallContainerService) IsContainerFull(ctx context.Context, req mo
 		resp.BallContainer = req.BallContainer
 		return
 	}
-	totalBall := req.BallContainer.CurrentBallInContainer + req.ThrownBall.NumberOfBall
+	totalBall := req.BallContainer.CurrentBallInContainer + 1
 	if totalBall == req.BallContainer.BallContainerSize {
 		resp.Status = ContainerFull
 		resp.BallContainer = req.BallContainer
