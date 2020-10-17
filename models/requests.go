@@ -11,7 +11,7 @@ type BallContainer struct {
 }
 
 type ThrownBall struct {
-	Ball int `json:"ball"`
+	NumberOfBall int `json:"number_of_ball"`
 }
 
 type FillBallContainerReq struct {
