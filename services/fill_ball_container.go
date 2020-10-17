@@ -25,6 +25,7 @@ type FillBallContainerService struct {
 
 type IFillBallContainerService interface {
 	IsContainerFull(ctx context.Context, req models.FillBallContainerReq) models.FillBallContainerResp
+	ValidateRequest(ctx context.Context, req models.FillBallContainerReq) models.RespError
 }
 
 func (fbcs FillBallContainerService) IsContainerFull(ctx context.Context, req models.FillBallContainerReq) (resp models.FillBallContainerResp) {
@@ -33,6 +34,14 @@ func (fbcs FillBallContainerService) IsContainerFull(ctx context.Context, req mo
 		resp.Status = ContainerVerified
 		resp.BallContainer = req.BallContainer
 		resp.BallContainer.CurrentBallInContainer = totalBall
+		return
+	}
+	return
+}
+
+func (fbcs FillBallContainerService) ValidateRequest(ctx context.Context, req models.FillBallContainerReq) (respError models.RespError) {
+	if req.BallContainer.BallContainerSize > CommonBallContainerSizeFour || req.BallContainer.BallContainerSize < CommonBallContainerSizeThree {
+		respError = models.GetUnhandledRequest()
 		return
 	}
 	return

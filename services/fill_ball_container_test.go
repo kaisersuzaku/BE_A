@@ -101,3 +101,108 @@ func TestBallContainerSizeThree(t *testing.T) {
 		assert.Equal(test.expected(), resp, fmt.Sprintf("%s : Object not same, expected %v, got %v", test.testName, test.expected(), resp))
 	}
 }
+
+func TestValidateRequest(t *testing.T) {
+	assert := assert.New(t)
+
+	fillBallContainerService := services.FillBallContainerService{}
+	var tests = []struct {
+		testName string
+		input1   func() context.Context
+		input2   func() models.FillBallContainerReq
+		expected func() models.RespError
+	}{
+		{
+			"TestValidateRequest : Valid Size 4",
+			func() context.Context {
+				return context.TODO()
+			},
+			func() models.FillBallContainerReq {
+				ballContainer := models.BallContainer{
+					BallContainerSize:      services.CommonBallContainerSizeFour,
+					CurrentBallInContainer: 3,
+				}
+				thrownBall := models.ThrownBall{
+					NumberOfBall: 1,
+				}
+				return models.FillBallContainerReq{
+					BallContainer: ballContainer,
+					ThrownBall:    thrownBall,
+				}
+			},
+			func() models.RespError {
+				return models.RespError{}
+			},
+		},
+		{
+			"TestValidateRequest : Valid Size 3",
+			func() context.Context {
+				return context.TODO()
+			},
+			func() models.FillBallContainerReq {
+				ballContainer := models.BallContainer{
+					BallContainerSize:      services.CommonBallContainerSizeThree,
+					CurrentBallInContainer: 3,
+				}
+				thrownBall := models.ThrownBall{
+					NumberOfBall: 1,
+				}
+				return models.FillBallContainerReq{
+					BallContainer: ballContainer,
+					ThrownBall:    thrownBall,
+				}
+			},
+			func() models.RespError {
+				return models.RespError{}
+			},
+		},
+		{
+			"TestValidateRequest : Invalid Size more than 4",
+			func() context.Context {
+				return context.TODO()
+			},
+			func() models.FillBallContainerReq {
+				ballContainer := models.BallContainer{
+					BallContainerSize:      5,
+					CurrentBallInContainer: 3,
+				}
+				thrownBall := models.ThrownBall{
+					NumberOfBall: 1,
+				}
+				return models.FillBallContainerReq{
+					BallContainer: ballContainer,
+					ThrownBall:    thrownBall,
+				}
+			},
+			func() models.RespError {
+				return models.GetUnhandledRequest()
+			},
+		},
+		{
+			"TestValidateRequest : Invalid Size less than 3",
+			func() context.Context {
+				return context.TODO()
+			},
+			func() models.FillBallContainerReq {
+				ballContainer := models.BallContainer{
+					BallContainerSize:      2,
+					CurrentBallInContainer: 1,
+				}
+				thrownBall := models.ThrownBall{
+					NumberOfBall: 1,
+				}
+				return models.FillBallContainerReq{
+					BallContainer: ballContainer,
+					ThrownBall:    thrownBall,
+				}
+			},
+			func() models.RespError {
+				return models.GetUnhandledRequest()
+			},
+		},
+	}
+	for _, test := range tests {
+		resp := fillBallContainerService.ValidateRequest(test.input1(), test.input2())
+		assert.Equal(test.expected(), resp, fmt.Sprintf("%s : Object not same, expected %v, got %v", test.testName, test.expected(), resp))
+	}
+}
