@@ -74,6 +74,47 @@ func TestBallContainerSizeFour(t *testing.T) {
 				return r, httptest.NewRecorder()
 			},
 		},
+		{
+			"TestBallContainerSizeFour : Invalid Payload Missing Field",
+			func() (int, string) {
+				resp := models.GetInvalidPayloadResp()
+				b, _ := json.Marshal(resp)
+				return http.StatusBadRequest, string(b)
+			},
+			func() (*http.Request, *httptest.ResponseRecorder) {
+
+				ballContainerReq := models.BallContainer{
+					BallContainerSize: services.CommonBallContainerSizeFour,
+				}
+				thrownBall := models.ThrownBall{
+					NumberOfBall: 1,
+				}
+				req := models.FillBallContainerReq{
+					BallContainer: ballContainerReq,
+					ThrownBall:    thrownBall,
+				}
+
+				b, _ := json.Marshal(req)
+				br := ioutil.NopCloser(bytes.NewReader(b))
+
+				r, _ := http.NewRequest(http.MethodPost, "/ball-container-check", br)
+				return r, httptest.NewRecorder()
+			},
+		},
+		{
+			"TestBallContainerSizeFour : Invalid Content-type Payload",
+			func() (int, string) {
+				resp := models.GetInvalidPayloadResp()
+				b, _ := json.Marshal(resp)
+				return http.StatusBadRequest, string(b)
+			},
+			func() (*http.Request, *httptest.ResponseRecorder) {
+				b := []byte("This is just a plain text")
+				br := ioutil.NopCloser(bytes.NewReader(b))
+				r, _ := http.NewRequest(http.MethodPost, "/ball-container-check", br)
+				return r, httptest.NewRecorder()
+			},
+		},
 	}
 
 	for _, test := range tests {
@@ -141,6 +182,47 @@ func TestBallContainerSizeThree(t *testing.T) {
 				r, _ := http.NewRequest(http.MethodPost, "/ball-container-check", br)
 
 				fbcs.On("IsContainerFull", r.Context(), req).Return(resp)
+				return r, httptest.NewRecorder()
+			},
+		},
+		{
+			"TestBallContainerSizeFour : Invalid Payload Missing Field",
+			func() (int, string) {
+				resp := models.GetInvalidPayloadResp()
+				b, _ := json.Marshal(resp)
+				return http.StatusBadRequest, string(b)
+			},
+			func() (*http.Request, *httptest.ResponseRecorder) {
+
+				ballContainerReq := models.BallContainer{
+					BallContainerSize: services.CommonBallContainerSizeThree,
+				}
+				thrownBall := models.ThrownBall{
+					NumberOfBall: 1,
+				}
+				req := models.FillBallContainerReq{
+					BallContainer: ballContainerReq,
+					ThrownBall:    thrownBall,
+				}
+
+				b, _ := json.Marshal(req)
+				br := ioutil.NopCloser(bytes.NewReader(b))
+
+				r, _ := http.NewRequest(http.MethodPost, "/ball-container-check", br)
+				return r, httptest.NewRecorder()
+			},
+		},
+		{
+			"TestBallContainerSizeFour : Invalid Content-type Payload",
+			func() (int, string) {
+				resp := models.GetInvalidPayloadResp()
+				b, _ := json.Marshal(resp)
+				return http.StatusBadRequest, string(b)
+			},
+			func() (*http.Request, *httptest.ResponseRecorder) {
+				b := []byte("This is just a plain text")
+				br := ioutil.NopCloser(bytes.NewReader(b))
+				r, _ := http.NewRequest(http.MethodPost, "/ball-container-check", br)
 				return r, httptest.NewRecorder()
 			},
 		},

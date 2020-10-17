@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/kaisersuzaku/BE_A/models"
 	"github.com/kaisersuzaku/BE_A/services"
 )
@@ -28,14 +29,23 @@ func (fbch FillBallContainerHandler) CheckBallContainer(w http.ResponseWriter, r
 	var req models.FillBallContainerReq
 	bodyByte, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusBadRequest)
+		respErr := models.GetInvalidPayloadResp()
+		log.Println(respErr.ErrorCode, respErr.ErrorMessage, err)
+		fbch.respError(w, respErr)
 		return
 	}
 	err = json.Unmarshal(bodyByte, &req)
 	if err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusBadRequest)
+		respErr := models.GetInvalidPayloadResp()
+		log.Println(respErr.ErrorCode, respErr.ErrorMessage, err)
+		fbch.respError(w, respErr)
+		return
+	}
+	_, err = govalidator.ValidateStruct(req)
+	if err != nil {
+		respErr := models.GetInvalidPayloadResp()
+		log.Println(respErr.ErrorCode, respErr.ErrorMessage, err)
+		fbch.respError(w, respErr)
 		return
 	}
 	resp := fbch.fbcs.IsContainerFull(r.Context(), req)
@@ -48,5 +58,14 @@ func (fbch FillBallContainerHandler) respSuccess(w http.ResponseWriter, data int
 	w.Header().Add("Content-type", "application/json")
 	m["Content-type"] = "application/json"
 	w.WriteHeader(http.StatusOK)
+	w.Write(body)
+}
+
+func (fbch FillBallContainerHandler) respError(w http.ResponseWriter, e models.RespError) {
+	body, _ := json.Marshal(e)
+	m := make(map[string]string)
+	w.Header().Add("Content-type", "application/json")
+	m["Content-type"] = "application/json"
+	w.WriteHeader(http.StatusBadRequest)
 	w.Write(body)
 }
