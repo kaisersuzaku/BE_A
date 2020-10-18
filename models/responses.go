@@ -5,6 +5,6 @@ type FillBallContainerResp struct {
 	BallContainer BallContainer `json:"ball_container"`
 }
 
-type OrderProductResponse struct {
+type OrderProductResp struct {
 	Status string `json:"status"`
 }

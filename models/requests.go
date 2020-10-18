@@ -10,7 +10,7 @@ type FillBallContainerReq struct {
 	BallContainer BallContainer `json:"ball_container" valid:"required"`
 }
 
-type OrderReq struct {
+type OrderProductReq struct {
 	ID  uint `json:"id" valid:"required"`
 	Qty int  `json:"qty" valid:"required"`
 }
