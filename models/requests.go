@@ -12,5 +12,5 @@ type FillBallContainerReq struct {
 
 type OrderProductReq struct {
 	ID  uint `json:"id" valid:"required"`
-	Qty int  `json:"qty" valid:"required"`
+	Qty uint `json:"qty" valid:"required"`
 }
