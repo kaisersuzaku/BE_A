@@ -14,6 +14,20 @@ type IOrderProductService struct {
 	mock.Mock
 }
 
+// GetProductByID provides a mock function with given fields: ctx, id
+func (_m *IOrderProductService) GetProductByID(ctx context.Context, id uint) models.Product {
+	ret := _m.Called(ctx, id)
+
+	var r0 models.Product
+	if rf, ok := ret.Get(0).(func(context.Context, uint) models.Product); ok {
+		r0 = rf(ctx, id)
+	} else {
+		r0 = ret.Get(0).(models.Product)
+	}
+
+	return r0
+}
+
 // OrderProduct provides a mock function with given fields: ctx, req
 func (_m *IOrderProductService) OrderProduct(ctx context.Context, req models.OrderProductReq) (models.OrderProductResp, models.RespError) {
 	ret := _m.Called(ctx, req)

@@ -258,3 +258,53 @@ func TestOrderProduct(t *testing.T) {
 		assert.Equal(test.expected2(), respErr, fmt.Sprintf("%s : Object not same, expected %v, got %v", test.testName, test.expected2(), respErr))
 	}
 }
+
+func TestGetProductByID(t *testing.T) {
+	assert := assert.New(t)
+
+	var tests = []struct {
+		testName  string
+		input1    func() context.Context
+		input2    func() uint
+		expected1 func() models.Product
+		prepare   func() *mocks.IProductRepo
+	}{
+		{
+			"TestGetProductByID : Found",
+			func() context.Context {
+				return context.TODO()
+			},
+			func() uint {
+				return uint(1)
+			},
+			func() models.Product {
+				var arg models.Product
+				arg.ID = uint(1)
+				arg.Name = "sarung"
+				arg.Stock = uint(299)
+				return arg
+			},
+			func() *mocks.IProductRepo {
+				opr := mocks.IProductRepo{}
+				var arg models.Product
+				var p1 models.Product
+				arg.ID = uint(1)
+				arg.Name = "sarung"
+				arg.Stock = uint(299)
+				opr.On("Read", context.Background(), arg.ID, &p1).Run(func(args mock.Arguments) {
+					arg := args.Get(2).(*models.Product)
+					arg.ID = uint(1)
+					arg.Name = "sarung"
+					arg.Stock = uint(299)
+				})
+				return &opr
+			},
+		},
+	}
+	for _, test := range tests {
+		opr := test.prepare()
+		ops := services.BuildOrderProductService(opr)
+		resp := ops.GetProductByID(test.input1(), test.input2())
+		assert.Equal(test.expected1(), resp, fmt.Sprintf("%s : Object not same, expected %v, got %v", test.testName, test.expected1(), resp))
+	}
+}

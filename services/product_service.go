@@ -20,6 +20,12 @@ func BuildOrderProductService(pr repo.IProductRepo) OrderProductService {
 
 type IOrderProductService interface {
 	OrderProduct(ctx context.Context, req models.OrderProductReq) (resp models.OrderProductResp, err models.RespError)
+	GetProductByID(ctx context.Context, id uint) (resp models.Product)
+}
+
+func (ops OrderProductService) GetProductByID(ctx context.Context, id uint) (resp models.Product) {
+	ops.pr.Read(context.Background(), id, &resp)
+	return
 }
 
 func (ops OrderProductService) OrderProduct(ctx context.Context, req models.OrderProductReq) (resp models.OrderProductResp, err models.RespError) {

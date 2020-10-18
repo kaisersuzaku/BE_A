@@ -1,10 +1,12 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/asaskevich/govalidator"
 	"github.com/kaisersuzaku/BE_A/models"
@@ -23,6 +25,26 @@ func BuildOrderProductHandler(ps services.IOrderProductService) OrderProductHand
 
 type IOrderProductHandler interface {
 	OrderProduct(w http.ResponseWriter, r *http.Request)
+	GetProductByID(w http.ResponseWriter, r *http.Request)
+}
+
+func (oph OrderProductHandler) GetProductByID(w http.ResponseWriter, r *http.Request) {
+	id := r.Header.Get("X-Product-ID")
+	id64, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		respErr := models.GetInvalidPayloadResp()
+		log.Println(respErr.ErrorCode, respErr.ErrorMessage, err)
+		oph.respError(w, respErr)
+		return
+	}
+	resp := oph.ps.GetProductByID(context.Background(), uint(id64))
+	if resp.ID == 0 || resp.Name == "" {
+		respErr := models.GetProductNotFound()
+		log.Println(respErr.ErrorCode, respErr.ErrorMessage)
+		oph.respError(w, respErr)
+		return
+	}
+	oph.respSuccess(w, resp)
 }
 
 func (oph OrderProductHandler) OrderProduct(w http.ResponseWriter, r *http.Request) {

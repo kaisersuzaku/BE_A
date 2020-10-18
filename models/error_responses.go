@@ -26,6 +26,10 @@ var (
 		ErrorCode:    "ER-GNR-00",
 		ErrorMessage: "Oops, Something went wrong, please try again",
 	}
+	productNotFound RespError = RespError{
+		ErrorCode:    "ER-STK-03",
+		ErrorMessage: "Product not found",
+	}
 )
 
 func GetInvalidPayloadResp() RespError {
@@ -46,4 +50,8 @@ func GetStockLessThanRequest() RespError {
 
 func GetRequstFailed() RespError {
 	return requestFailed
+}
+
+func GetProductNotFound() RespError {
+	return productNotFound
 }

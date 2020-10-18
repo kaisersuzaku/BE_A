@@ -36,6 +36,7 @@ func main() {
 	fbch := handlers.BuildFBCHandler(&fbcs)
 	r.Post("/ball-container-check", fbch.CheckBallContainer)
 	r.Post("/order-product", oph.OrderProduct)
+	r.Get("/get-product", oph.GetProductByID)
 
 	http.ListenAndServe(":7789", r)
 }
