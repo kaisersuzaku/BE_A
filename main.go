@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/cors"
 	"github.com/kaisersuzaku/BE_A/handlers"
 
 	"github.com/kaisersuzaku/BE_A/services"
@@ -22,11 +23,22 @@ func main() {
 		log.Fatal(err)
 	}
 
-	utils.GetConfig(dir + "/conf.json")
+	cfg := utils.GetConfig(dir + "/conf.json")
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+
+	cfgCors := cfg.Cors
+	if cfgCors.IsEnabled {
+		r.Use(cors.Handler(cors.Options{
+			AllowedOrigins:   cfgCors.AllowedOrigins,
+			AllowedMethods:   cfgCors.AllowedMethods,
+			AllowedHeaders:   cfgCors.AllowedHeaders,
+			AllowCredentials: cfgCors.AllowCredentials,
+			MaxAge:           cfgCors.MaxAge,
+		}))
+	}
 
 	opr := repo.BuildProductRepo(utils.GetDB())
 	ops := services.BuildOrderProductService(opr)

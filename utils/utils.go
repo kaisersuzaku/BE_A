@@ -10,7 +10,8 @@ import (
 )
 
 type Config struct {
-	DB Database `json:"db"`
+	DB   Database   `json:"db"`
+	Cors CorsConfig `json:"cors"`
 }
 
 type Database struct {
@@ -19,6 +20,15 @@ type Database struct {
 	Name     string `json:"name"`
 	Username string `json:"username"`
 	Password string `json:"password"`
+}
+
+type CorsConfig struct {
+	IsEnabled        bool     `json:"is_enabled"`
+	AllowedOrigins   []string `json:"allowed_origins"`
+	AllowedMethods   []string `json:"allowed_methods"`
+	AllowedHeaders   []string `json:"allowed_headers"`
+	AllowCredentials bool     `json:"allow_credentials"`
+	MaxAge           int      `json:"max_age"`
 }
 
 var config Config
