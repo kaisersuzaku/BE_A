@@ -45,7 +45,9 @@ func (p ProductRepo) ReadForUpdateByID(ctx context.Context, tx *gorm.DB, id uint
 }
 
 func (p ProductRepo) Update(ctx context.Context, tx *gorm.DB, product models.Product) error {
-	return tx.Debug().Model(models.Product{}).Where("id = ? AND products.stock > ?", product.ID, 0).Updates(product).Error
+	return tx.Debug().Model(models.Product{}).Where("id = ? AND products.stock > ?", product.ID, 0).Updates(map[string]interface{}{
+		"stock": product.Stock,
+	}).Error
 }
 
 func (p ProductRepo) Read(ctx context.Context, id uint, product *models.Product) {

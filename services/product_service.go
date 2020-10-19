@@ -31,7 +31,7 @@ func (ops OrderProductService) GetProductByID(ctx context.Context, id uint) (res
 func (ops OrderProductService) OrderProduct(ctx context.Context, req models.OrderProductReq) (resp models.OrderProductResp, err models.RespError) {
 	var product models.Product
 	tx := ops.pr.Begin(context.Background())
-	e := ops.pr.ReadForUpdateByID(context.Background(), tx, uint(1), &product)
+	e := ops.pr.ReadForUpdateByID(context.Background(), tx, uint(req.ID), &product)
 	if e != nil {
 		ops.pr.Rollback(context.Background(), tx)
 		log.Println(e)

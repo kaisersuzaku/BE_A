@@ -2,6 +2,7 @@ package handlers_test
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -21,12 +22,11 @@ import (
 func TestBallContainer(t *testing.T) {
 	assert := assert.New(t)
 
-	fbcs := mocks.IFillBallContainerService{}
-	fillBallContainerHandler := handlers.BuildFBCHandler(&fbcs)
 	var tests = []struct {
 		testName string
 		expected func() (int, string)
 		prepare  func() (*http.Request, *httptest.ResponseRecorder)
+		prepMock func() *mocks.IFillBallContainerService
 	}{
 		{
 			"TestBallContainerSizeFour : Ball Container VERIFIED",
@@ -54,6 +54,25 @@ func TestBallContainer(t *testing.T) {
 					BallContainer: ballContainerReq,
 				}
 
+				b, _ := json.Marshal(req)
+				br := ioutil.NopCloser(bytes.NewReader(b))
+
+				r, _ := http.NewRequest(http.MethodPost, "/ball-container-check", br)
+
+				return r, httptest.NewRecorder()
+			},
+			func() *mocks.IFillBallContainerService {
+				fbcs := mocks.IFillBallContainerService{}
+				ballContainerReq := models.BallContainer{
+					ID:                     1,
+					BallContainerSize:      services.CommonBallContainerSizeFour,
+					CurrentBallInContainer: 3,
+				}
+
+				req := models.FillBallContainerReq{
+					BallContainer: ballContainerReq,
+				}
+
 				ballContainerResp := models.BallContainer{
 					BallContainerSize:      services.CommonBallContainerSizeFour,
 					CurrentBallInContainer: services.CommonBallContainerSizeFour,
@@ -63,14 +82,9 @@ func TestBallContainer(t *testing.T) {
 					Status:        services.ContainerFull,
 				}
 
-				b, _ := json.Marshal(req)
-				br := ioutil.NopCloser(bytes.NewReader(b))
-
-				r, _ := http.NewRequest(http.MethodPost, "/ball-container-check", br)
-
-				fbcs.On("ValidateRequest", r.Context(), req).Return(models.RespError{})
-				fbcs.On("IsContainerFull", r.Context(), req).Return(resp)
-				return r, httptest.NewRecorder()
+				fbcs.On("ValidateRequest", context.Background(), req).Return(models.RespError{})
+				fbcs.On("IsContainerFull", context.Background(), req).Return(resp)
+				return &fbcs
 			},
 		},
 		{
@@ -99,6 +113,25 @@ func TestBallContainer(t *testing.T) {
 					BallContainer: ballContainerReq,
 				}
 
+				b, _ := json.Marshal(req)
+				br := ioutil.NopCloser(bytes.NewReader(b))
+
+				r, _ := http.NewRequest(http.MethodPost, "/ball-container-check", br)
+
+				return r, httptest.NewRecorder()
+			},
+			func() *mocks.IFillBallContainerService {
+				fbcs := mocks.IFillBallContainerService{}
+				ballContainerReq := models.BallContainer{
+					ID:                     1,
+					BallContainerSize:      services.CommonBallContainerSizeThree,
+					CurrentBallInContainer: 3,
+				}
+
+				req := models.FillBallContainerReq{
+					BallContainer: ballContainerReq,
+				}
+
 				ballContainerResp := models.BallContainer{
 					BallContainerSize:      services.CommonBallContainerSizeThree,
 					CurrentBallInContainer: services.CommonBallContainerSizeThree,
@@ -108,14 +141,9 @@ func TestBallContainer(t *testing.T) {
 					Status:        services.ContainerFull,
 				}
 
-				b, _ := json.Marshal(req)
-				br := ioutil.NopCloser(bytes.NewReader(b))
-
-				r, _ := http.NewRequest(http.MethodPost, "/ball-container-check", br)
-
-				fbcs.On("ValidateRequest", r.Context(), req).Return(models.RespError{})
-				fbcs.On("IsContainerFull", r.Context(), req).Return(resp)
-				return r, httptest.NewRecorder()
+				fbcs.On("ValidateRequest", context.Background(), req).Return(models.RespError{})
+				fbcs.On("IsContainerFull", context.Background(), req).Return(resp)
+				return &fbcs
 			},
 		},
 		{
@@ -128,8 +156,8 @@ func TestBallContainer(t *testing.T) {
 			func() (*http.Request, *httptest.ResponseRecorder) {
 
 				ballContainerReq := models.BallContainer{
-					ID:                1,
-					BallContainerSize: services.CommonBallContainerSizeFour,
+					BallContainerSize:      services.CommonBallContainerSizeFour,
+					CurrentBallInContainer: 1,
 				}
 
 				req := models.FillBallContainerReq{
@@ -141,6 +169,10 @@ func TestBallContainer(t *testing.T) {
 
 				r, _ := http.NewRequest(http.MethodPost, "/ball-container-check", br)
 				return r, httptest.NewRecorder()
+			},
+			func() *mocks.IFillBallContainerService {
+				fbcs := mocks.IFillBallContainerService{}
+				return &fbcs
 			},
 		},
 		{
@@ -156,33 +188,9 @@ func TestBallContainer(t *testing.T) {
 				r, _ := http.NewRequest(http.MethodPost, "/ball-container-check", br)
 				return r, httptest.NewRecorder()
 			},
-		},
-		{
-			"Unhandled Request : Ball Container Size more than 4",
-			func() (int, string) {
-				resp := models.GetUnhandledRequest()
-				b, _ := json.Marshal(resp)
-				return http.StatusBadRequest, string(b)
-			},
-			func() (*http.Request, *httptest.ResponseRecorder) {
-
-				ballContainerReq := models.BallContainer{
-					ID:                     1,
-					BallContainerSize:      5,
-					CurrentBallInContainer: 3,
-				}
-
-				req := models.FillBallContainerReq{
-					BallContainer: ballContainerReq,
-				}
-
-				b, _ := json.Marshal(req)
-				br := ioutil.NopCloser(bytes.NewReader(b))
-
-				r, _ := http.NewRequest(http.MethodPost, "/ball-container-check", br)
-
-				fbcs.On("ValidateRequest", r.Context(), req).Return(models.GetUnhandledRequest())
-				return r, httptest.NewRecorder()
+			func() *mocks.IFillBallContainerService {
+				fbcs := mocks.IFillBallContainerService{}
+				return &fbcs
 			},
 		},
 		{
@@ -208,14 +216,28 @@ func TestBallContainer(t *testing.T) {
 				br := ioutil.NopCloser(bytes.NewReader(b))
 
 				r, _ := http.NewRequest(http.MethodPost, "/ball-container-check", br)
-
-				fbcs.On("ValidateRequest", r.Context(), req).Return(models.GetUnhandledRequest())
 				return r, httptest.NewRecorder()
+			},
+			func() *mocks.IFillBallContainerService {
+				fbcs := mocks.IFillBallContainerService{}
+				ballContainerReq := models.BallContainer{
+					ID:                     1,
+					BallContainerSize:      2,
+					CurrentBallInContainer: 1,
+				}
+				req := models.FillBallContainerReq{
+					BallContainer: ballContainerReq,
+				}
+				fbcs.On("ValidateRequest", context.Background(), req).Return(models.GetUnhandledRequest())
+				return &fbcs
 			},
 		},
 	}
 
 	for _, test := range tests {
+		fbcs := test.prepMock()
+		fillBallContainerHandler := handlers.BuildFBCHandler(fbcs)
+
 		req, rr := test.prepare()
 
 		handler := http.HandlerFunc(fillBallContainerHandler.CheckBallContainer)
